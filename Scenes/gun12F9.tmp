@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcrk6tluc3p8o"]
+
+[ext_resource type="Script" path="res://Scripts/gun.gd" id="1_m2pth"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_h6pw6"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_2wwdo"]
+
+[node name="Gun" type="RigidBody2D" groups=["gun"]]
+freeze_mode = 1
+script = ExtResource("1_m2pth")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+modulate = Color(0.199851, 0.000183474, 0.599502, 1)
+position = Vector2(2.04359e-07, 0.285714)
+scale = Vector2(7, 7)
+polygon = PackedVector2Array(-2, -0.714286, -1.57143, -0.714286, -1.57143, 1.71429, -0.428572, 1.71429, -0.428572, -0.714286, 2, -0.714286, 2, -1.85714, -2, -1.85714)
+
+[node name="PickUpPrompt" type="Polygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-4.85714, -16.4286, -8.42857, -28.7143, -16.1429, -33.7143, -19.2857, -38.8571, -22, -46.5714, -23.7143, -55.2857, -20, -63.5714, -13.4286, -68.8571, -4.14286, -72.7143, 13.8571, -76, 31.8571, -76.1429, 46, -74.4286, 55.1429, -72.8571, 63.4286, -70, 71, -65.7143, 75.2857, -60.7143, 78.1429, -55.4286, 79.4286, -46.5714, 75.7143, -40, 67.7143, -33.4286, 53.1429, -30.5714, 45.7143, -29.8571, 36.8571, -28.5714, 27.4286, -28.1429, 17.1429, -27.1429, 3.71429, -25.8571)
+
+[node name="Label" type="Label" parent="PickUpPrompt"]
+offset_left = -13.4286
+offset_top = -61.8571
+offset_right = 312.571
+offset_bottom = 26.1429
+scale = Vector2(0.25, 0.25)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 64
+text = "E to EQUIP"
+horizontal_alignment = 1
+
+[node name="BulletPosition" type="Node2D" parent="."]
+position = Vector2(17, -9)
+
+[node name="Gun_Sprite" type="Node2D" parent="."]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Gun_Sprite"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(0, -8.85714)
+scale = Vector2(28, 7)
+mesh = SubResource("QuadMesh_h6pw6")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Gun_Sprite"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-7, 1.71429)
+scale = Vector2(7, 21)
+mesh = SubResource("QuadMesh_2wwdo")
+
+[node name="reloadTimer" type="Timer" parent="."]

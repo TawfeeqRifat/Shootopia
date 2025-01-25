@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj3yf55jt5gm6"]
+
+[ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_thyv3"]
+
+[node name="Bullet" type="RigidBody2D" groups=["attack"]]
+gravity_scale = 0.0
+script = ExtResource("1_thyv3")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-1.8, -2.3)
+scale = Vector2(0.2, 0.2)
+polygon = PackedVector2Array(-25, -12, -25, 17, 12, 17, 29, 8.96398, 29, -5, 9.10375, -12)
+
+[node name="detecter" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="detecter"]
+position = Vector2(-1.8, -2.3)
+scale = Vector2(0.2, 0.2)
+polygon = PackedVector2Array(-25, -12, -25, 17, 12, 17, 29, 8, 29, -5, 9, -11.9056)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-1.8, -2.3)
+scale = Vector2(0.2, 0.2)
+color = Color(1, 0.701961, 0, 1)
+polygon = PackedVector2Array(-25, -12, 9, -12, 29, -5, 29, 9, 12, 17, -25, 17)
+
+[node name="bulletSpread" type="CPUParticles2D" parent="."]
+visibility_layer = 16
+position = Vector2(-1, -2)
+emitting = false
+amount = 10
+one_shot = true
+explosiveness = 0.75
+emission_shape = 1
+emission_sphere_radius = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+color = Color(1, 0.701961, 0, 1)
+
+[node name="hitTimer" type="Timer" parent="."]
+
+[node name="lifetime" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="detecter" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="hitTimer" to="." method="_on_hit_timer_timeout"]
+[connection signal="timeout" from="lifetime" to="." method="_on_lifetime_timeout"]

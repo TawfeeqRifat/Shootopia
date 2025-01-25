@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://dvxgqcc47v4g8"]
+
+[ext_resource type="PackedScene" uid="uid://cnumo51dq10ba" path="res://Scenes/player.tscn" id="1_nw3lj"]
+[ext_resource type="Texture2D" uid="uid://cfo3b2iiaadep" path="res://icon.svg" id="2_832ks"]
+[ext_resource type="PackedScene" uid="uid://dcrk6tluc3p8o" path="res://Scenes/gun.tscn" id="3_p0bh2"]
+[ext_resource type="PackedScene" uid="uid://baxaji6xuxohv" path="res://Scenes/enemy.tscn" id="4_55w37"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rkw4x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_um8y6"]
+size = Vector2(132, 117)
+
+[node name="playground" type="Node2D"]
+
+[node name="player" parent="." instance=ExtResource("1_nw3lj")]
+position = Vector2(7, -12)
+slide_on_ceiling = false
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+position = Vector2(6.35783e-07, 0)
+scale = Vector2(0.333333, 0.333333)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["ground"]]
+position = Vector2(0, 51)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" groups=["ground"]]
+position = Vector2(-2, 457)
+scale = Vector2(7.07, 7.07)
+texture = ExtResource("2_832ks")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" groups=["ground"]]
+shape = SubResource("WorldBoundaryShape2D_rkw4x")
+
+[node name="Gun" parent="." instance=ExtResource("3_p0bh2")]
+position = Vector2(240, 30)
+
+[node name="Gun2" parent="." instance=ExtResource("3_p0bh2")]
+position = Vector2(-295, 30)
+
+[node name="Enemy" parent="." instance=ExtResource("4_55w37")]
+position = Vector2(313, -24)
+
+[node name="reloadTimer" type="Timer" parent="."]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." groups=["ground"]]
+position = Vector2(-159, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(3, 5)
+texture = ExtResource("2_832ks")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(6, 2.5)
+shape = SubResource("RectangleShape2D_um8y6")

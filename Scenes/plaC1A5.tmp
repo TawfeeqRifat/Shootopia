@@ -1,0 +1,104 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnumo51dq10ba"]
+
+[ext_resource type="Texture2D" uid="uid://bp47fb52e3uep" path="res://Assets/Character/punching_pose.png" id="1_k2lsb"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_v7eb0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nscw4"]
+radius = 4.00439
+height = 22.4029
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_44o7l"]
+radius = 4.0
+height = 22.4
+
+[sub_resource type="SphereMesh" id="SphereMesh_uu4un"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_g32pt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_diujf"]
+size = Vector2(325, 40)
+
+[node name="player" type="CharacterBody2D" groups=["player"]]
+disable_mode = 2
+script = ExtResource("1_v7eb0")
+SPEED = null
+BackWalkSPEED = null
+JUMP_VELOCITY = null
+health = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3.57628e-07, 0)
+scale = Vector2(3.5, 3.5)
+shape = SubResource("CapsuleShape2D_nscw4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(4, -9.53674e-07)
+scale = Vector2(0.778895, 0.778895)
+texture = ExtResource("1_k2lsb")
+
+[node name="body" type="MeshInstance2D" parent="."]
+scale = Vector2(3.5, 3.5)
+mesh = SubResource("CapsuleMesh_44o7l")
+
+[node name="head" type="Node2D" parent="."]
+position = Vector2(0, -31)
+
+[node name="GunPosition" type="Node2D" parent="head"]
+position = Vector2(48, 25)
+
+[node name="GunRemoteTransformPosition" type="RemoteTransform2D" parent="head/GunPosition"]
+
+[node name="face" type="MeshInstance2D" parent="head"]
+scale = Vector2(30, 30)
+mesh = SubResource("SphereMesh_uu4un")
+
+[node name="goggles" type="MeshInstance2D" parent="head"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(10, -4)
+scale = Vector2(20, 5.323)
+mesh = SubResource("BoxMesh_g32pt")
+
+[node name="pickUpZone" type="Area2D" parent="."]
+position = Vector2(0, 19)
+
+[node name="pickupzone" type="CollisionShape2D" parent="pickUpZone"]
+shape = SubResource("RectangleShape2D_diujf")
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+
+[node name="Health_label" type="Label" parent="PlayerUI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -79.0
+offset_top = 16.0
+offset_right = 24.0
+offset_bottom = 61.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Health"
+horizontal_alignment = 1
+
+[node name="HealthIndicator" type="Label" parent="PlayerUI"]
+offset_left = 614.0
+offset_top = 16.0
+offset_right = 669.0
+offset_bottom = 61.0
+theme_override_font_sizes/font_size = 32
+text = "100
+"
+
+[node name="HealthBar" type="ColorRect" parent="PlayerUI"]
+offset_left = 494.0
+offset_top = 61.0
+offset_right = 671.0
+offset_bottom = 82.0
+color = Color(0.309214, 0.0209296, 0.0478159, 1)
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="body_entered" from="pickUpZone" to="." method="_on_pick_up_zone_body_entered"]
+[connection signal="body_exited" from="pickUpZone" to="." method="_on_pick_up_zone_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
